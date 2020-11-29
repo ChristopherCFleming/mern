@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require("express");
 const port = process.env.PORT || 5000;
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const app = express();
 const db = require('./config/keys').mongoURI;
 const users = require("./routes/api/users");
@@ -12,7 +13,10 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => res.send("Hello Baz"));
+app.use(passport.initialize());
+require('./config/passport')(passport);
+
+
   
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
